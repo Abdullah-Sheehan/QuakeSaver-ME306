@@ -1,0 +1,11 @@
+build/
+install/
+log/
+pycache/
+*.pyc
+*.swp
+eeprom.bin
+*.bin
+*.BIN
+logs/
+.vscode/

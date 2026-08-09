@@ -1,7 +1,30 @@
-## QuakeSAVER - Multi-Agent Decentralized Autonomous Rescue System
+# QuakeSAVER
 
-A decentralized multi-agent UAV/UGV system for earthquake disaster response, developed as an ME 366 (Electro-Mechanical System Design) capstone project at BUET. Motivated by Bangladesh's seismic hazard — particularly the Sylhet/Dauki fault zone — QuakeSAVER coordinates two UAVs ("Scout" and "Relay") and two ground rovers to search, detect, and map victims in earthquake-affected environments without relying on centralized control.
+Decentralized multi-agent UAV/UGV system for earthquake disaster response.
+ME 366 (Electro-Mechanical System Design), BUET.
 
-The system uses an auction-based Contract Net Protocol (CNP) for task allocation and a Bully election algorithm for leader selection within agent pools, with the base station acting as a passive observer holding only a human ABORT override. UAVs run on Pixhawk 2.4.8 + ArduCopter with Raspberry Pi 4 companion computers; UGVs run ROS 2 Humble with Nav2 and slam_toolbox for autonomous navigation and mapping. Inter-agent communication uses LoRa (433 MHz).
+## Setup (Ubuntu 22.04)
 
-Stack: ROS 2 (Humble/Jazzy) · MAVROS · ArduPilot SITL · Gazebo
+git clone git@github.com:<user>/quakesaver.git ~/quakesaver_ws
+cd ~/quakesaver_ws
+./scripts/bootstrap.sh
+source ~/.bashrc
+./scripts/launch_all.sh
+
+## Packages
+
+| Package | Role |
+|---|---|
+| qs_msgs | Shared message interfaces (build first) |
+| qs_uav | Mission manager, ortho camera, entry-point detector |
+| qs_comms | LoRa bridge + link simulator |
+| qs_ugv | CNP auction, Bully election, Nav2 executor |
+| qs_base | Passive dashboard + ABORT publisher |
+| qs_bringup | Launch files and tmux orchestration |
+
+## Architecture notes
+
+- Base station is passive — observer plus human ABORT only.
+- CNP auction allocates tasks among UGVs only. UAVs are not bidders.
+- Bully election selects the auctioneer within the UGV pool.
+- UAV1 = SYSID 1, UAV2 (relay) = SYSID 2. Distinct namespaces /uav1, /uav2.
