@@ -5,11 +5,13 @@ ME 366 (Electro-Mechanical System Design), BUET.
 
 ## Setup (Ubuntu 22.04)
 
+```bash
 git clone git@github.com:<user>/quakesaver.git ~/quakesaver_ws
 cd ~/quakesaver_ws
 ./scripts/bootstrap.sh
 source ~/.bashrc
 ./scripts/launch_all.sh
+```
 
 ## Packages
 
